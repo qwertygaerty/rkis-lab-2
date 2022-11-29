@@ -54,9 +54,9 @@ class Book(models.Model):
         if value.size > size_limit:
             raise forms.ValidationError('Файл слишком большой. Размер файла не должен превышать 2MB')
 
-    photoPreview = models.ImageField(validators=[validate_image], upload_to='cover', verbose_name='Изображения',
+    photoPreview = models.ImageField(validators=[validate_image], upload_to='media/cover', verbose_name='Изображения',
                                      blank=False, null=True)
-    bookFile = models.FileField(upload_to='books', verbose_name='Файл с книгой', blank=False, null=True)
+    bookFile = models.FileField(upload_to='media/books', verbose_name='Файл с книгой', blank=False, null=True)
 
     class Meta:
         unique_together = ('title', 'author', 'yearOfRel', 'publisher')

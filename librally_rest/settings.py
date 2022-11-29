@@ -127,3 +127,6 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'api.User'
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = 'media/'
