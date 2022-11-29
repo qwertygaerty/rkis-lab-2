@@ -23,5 +23,5 @@ router.register(r'books', views.BookViewSet)
 router.register(r'authors', views.AuthorViewSet)
 
 urlpatterns = [
-    path('api/', include('rest_framework.urls'))
+    path('', include(router.urls)),
 ]
