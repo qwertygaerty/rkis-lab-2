@@ -2,7 +2,6 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.forms import forms
-from django.utils.datetime_safe import datetime
 
 
 class User(AbstractUser):
@@ -18,7 +17,7 @@ class Author(models.Model):
     dateOfBirth = models.DateField(max_length=100, verbose_name='Дата рождения', blank=False, null=False)
 
     def __str__(self):
-        return '{} {} {}'.format(self.name, self.lastName, self.middle_name,)
+        return '{} {} {}'.format(self.name, self.lastName, self.middle_name, )
 
     class Meta:
         unique_together = ('name', 'lastName', 'middle_name', 'dateOfBirth')
@@ -63,4 +62,3 @@ class Book(models.Model):
         unique_together = ('title', 'author', 'yearOfRel', 'publisher')
         verbose_name = 'Книга'
         verbose_name_plural = 'Книги'
-
