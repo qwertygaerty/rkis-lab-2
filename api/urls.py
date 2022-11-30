@@ -18,7 +18,6 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from rest_framework import routers
 
-
 from api import views
 
 router = routers.DefaultRouter()
@@ -26,6 +25,6 @@ router.register(r'books', views.BookViewSet)
 router.register(r'authors', views.AuthorViewSet)
 
 urlpatterns = [
-                  path('', include(router.urls)),
-              ]
-
+    path('', include(router.urls)),
+    path('create/', views.add_book, name='add-book'),
+]
