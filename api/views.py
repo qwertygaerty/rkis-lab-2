@@ -26,8 +26,14 @@ class CreateBook(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         item = BookSerializer(data=request.data)
         print(Book.objects.filter(author=request.data.get('author'))[0].author)
-
-
+        print(request.data.get('title'))
+        print(request.data.get('author'))
+        print(request.data.get('yearOfRel'))
+        print(request.data.get('genre'))
+        print(request.data.get('category'))
+        print(request.data.get('publisher'))
+        print(request.data.get('photoPreview'))
+        print(request.data.get('bookFile'))
 
         if item.is_valid():
             item.save()
