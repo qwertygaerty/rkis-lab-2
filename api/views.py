@@ -1,7 +1,5 @@
-from django.contrib.auth.models import User, Group
-from rest_framework import viewsets, filters, status
-from rest_framework import permissions
 from rest_framework import serializers
+from rest_framework import viewsets, filters, status, generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
@@ -21,25 +19,18 @@ class AuthorViewSet(viewsets.ModelViewSet):
     serializer_class = AuthorSerializer
 
 
-@api_view(['POST'])
-def add_book(request):
-    item = BookSerializer(data=request.data)
-    print(request.data.get('publisher'))
-    baza = 'художественное произведение переведенное с другого языка'
-    textbook = 'учебник'
+class CreateBook(generics.CreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
-    if Book.objects.filter(category=baza, publisher=request.data.get('publisher'),
-                           title=request.data.get('title')).exists():
-        raise serializers.ValidationError(
-            'Такое художественное произведение переведенное с другого языка у этого издательства уже есть')
+    def create(self, request, *args, **kwargs):
+        item = BookSerializer(data=request.data)
+        print(Book.objects.filter(author=request.data.get('author'))[0].author)
 
-    if Book.objects.filter(category=textbook, publisher=request.data.get('yearOfRel'),
-                           author__name=request.data.get('author'),
-                           title=request.data.get('title')).exists():
-        raise serializers.ValidationError('Такой учебник у этого издательства уже есть ')
 
-    if item.is_valid():
-        item.save()
-        return Response(item.data)
-    else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if item.is_valid():
+            item.save()
+            return Response('Книга успешно добавлена ура ура')
+        else:
+            return Response('Книга неуспешно недобавлена неура неура', status=status.HTTP_400_BAD_REQUEST)
