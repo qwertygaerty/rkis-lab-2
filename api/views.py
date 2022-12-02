@@ -43,8 +43,8 @@ class CreateBook(generics.CreateAPIView):
             raise serializers.ValidationError(
                 'Такое художественное произведение переведенное с другого языка у этого издательства уже есть')
 
-        if Book.objects.filter(category=textbook, publisher=request.data.get('yearOfRel'),
-                               author__name=request.data.get('author'),
+        if Book.objects.filter(category=textbook, publisher=request.data.get('publisher'),
+                               author=request.data.get('author'),
                                title=request.data.get('title')).exists():
             raise serializers.ValidationError('Такой учебник у этого издательства уже есть ')
 
