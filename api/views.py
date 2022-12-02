@@ -25,7 +25,10 @@ class CreateBook(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         item = BookSerializer(data=request.data)
-        print(Book.objects.filter(author=request.data.get('author'))[0].author)
+
+        baza = 'художественное произведение переведенное с другого языка'
+        textbook = 'учебник'
+
         print(request.data.get('title'))
         print(request.data.get('author'))
         print(request.data.get('yearOfRel'))
@@ -34,6 +37,17 @@ class CreateBook(generics.CreateAPIView):
         print(request.data.get('publisher'))
         print(request.data.get('photoPreview'))
         print(request.data.get('bookFile'))
+
+        if Book.objects.filter(category=baza, publisher=request.data.get('publisher'),
+                               title=request.data.get('title')).exists():
+            raise serializers.ValidationError(
+                'Такое художественное произведение переведенное с другого языка у этого издательства уже есть')
+
+        if Book.objects.filter(category=textbook, publisher=request.data.get('yearOfRel'),
+                               author__name=request.data.get('author'),
+                               title=request.data.get('title')).exists():
+            raise serializers.ValidationError('Такой учебник у этого издательства уже есть ')
+
 
         if item.is_valid():
             item.save()

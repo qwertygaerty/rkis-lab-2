@@ -11,23 +11,6 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class BookSerializer(serializers.ModelSerializer):
-    def validate(self, data):
-        baza = 'художественное произведение переведенное с другого языка'
-        textbook = 'учебник'
-
-        if Book.objects.filter(category=baza, publisher=data.get('publisher'),
-                               author=data.get('author'),
-                               title=data.get('title')).exists():
-            raise serializers.ValidationError(
-                'Такое художественное произведение переведенное с другого языка у этого издательства уже есть')
-
-        if Book.objects.filter(category=textbook, publisher=data.get('yearOfRel'),
-                               author__name=data.get('author'),
-                               title=data.get('title')).exists():
-            raise serializers.ValidationError('Такой учебник у этого издательства уже есть ')
-
-        return data
-
     class Meta:
         model = Book
         fields = '__all__'
