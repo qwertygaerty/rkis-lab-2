@@ -39,4 +39,5 @@ class CreateBook(generics.CreateAPIView):
             item.save()
             return Response('Книга успешно добавлена ура ура')
         else:
+            print(item.errors)
             return Response('Книга неуспешно недобавлена неура неура', status=status.HTTP_400_BAD_REQUEST)
